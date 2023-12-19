@@ -5,8 +5,12 @@ import { AuthBackgroundImage } from "./components";
 function App() {
   return (
     <div>
-      <AuthBackgroundImage url="" token="">
-        <AuthImage url="" token="" />
+      <AuthBackgroundImage
+        url="/vite.svg"
+        token="test"
+        style={{ backgroundSize: "cover", width: "80px", height: "80px" }}
+      >
+        <AuthImage url="/vite.svg" token="test" />
       </AuthBackgroundImage>
     </div>
   );
