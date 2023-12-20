@@ -1,45 +1,63 @@
 import { useEffect, useState } from "react";
 
+async function fetchImage(
+  url: string,
+  token: string,
+  signal: AbortSignal
+): Promise<Blob | Error> {
+  try {
+    const response = await fetch(url, {
+      headers: { Authorization: "Bearer " + token },
+      signal: signal,
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const blob = await response.blob();
+    return blob;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to fetch image. ${error.message}`);
+    } else {
+      throw error;
+    }
+  }
+}
+
 export function AuthImage({
-  url,
-  token,
+  src = "test",
+  token = "test",
   ...restProps
-}: { url: string; token: string } & React.HTMLAttributes<HTMLImageElement>) {
+}: { src: string; token: string } & React.HTMLAttributes<HTMLImageElement>) {
   const [imageURL, setImageURL] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchImage = async () => {
-      try {
-        if (!url || !token) {
-          throw new Error("Missing url or token");
-        }
-        const response = await fetch(url, {
-          headers: { Authorization: "Bearer " + token },
+    let newImageURL: string | null = null;
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    if (src && token) {
+      fetchImage(src, token, signal)
+        .then((blob) => {
+          if (blob instanceof Blob) {
+            newImageURL = URL.createObjectURL(blob);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => {
+          setImageURL(newImageURL);
         });
-        if (!response.ok) {
-          throw new Error(`Failed to fetch image: ${response.statusText}`);
-        }
-        const blob = await response.blob();
-
-        if (!blob || !(blob instanceof Blob)) {
-          throw new Error("Invalid data format");
-        }
-        const newImageURL = URL.createObjectURL(blob);
-        setImageURL(newImageURL);
-      } catch (err) {
-        console.log(err);
-        setImageURL(null);
-      }
-    };
-
-    fetchImage();
+    }
 
     return () => {
-      if (imageURL) {
-        URL.revokeObjectURL(imageURL);
+      controller.abort();
+      if (newImageURL) {
+        URL.revokeObjectURL(newImageURL);
       }
     };
-  }, [url, token]);
+  }, [src, token]);
 
   return <img {...restProps} src={imageURL ? imageURL : undefined} />;
 }
@@ -52,40 +70,33 @@ export function AuthBackgroundImage({
 }: {
   url: string;
   token: string;
-  chilren?: React.ReactNode;
+  children?: React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>) {
   const [imageURL, setImageURL] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchImage = async () => {
-      try {
-        if (!url || !token) {
-          throw new Error("Missing url or token");
-        }
-        const response = await fetch(url, {
-          headers: { Authorization: "Bearer " + token },
+    let newImageURL: string | null = null;
+    const controller = new AbortController();
+    const signal = controller.signal;
+    if (url && token) {
+      fetchImage(url, token, signal)
+        .then((blob) => {
+          if (blob instanceof Blob) {
+            newImageURL = URL.createObjectURL(blob);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => {
+          setImageURL(newImageURL);
         });
-        if (!response.ok) {
-          throw new Error(`Failed to fetch image: ${response.statusText}`);
-        }
-        const blob = await response.blob();
-
-        if (!blob || !(blob instanceof Blob)) {
-          throw new Error("Invalid data format");
-        }
-        const newImageURL = URL.createObjectURL(blob);
-        setImageURL(newImageURL);
-      } catch (err) {
-        console.log(err);
-        setImageURL(null);
-      }
-    };
-
-    fetchImage();
+    }
 
     return () => {
-      if (imageURL) {
-        URL.revokeObjectURL(imageURL);
+      controller.abort();
+      if (newImageURL) {
+        URL.revokeObjectURL(newImageURL);
       }
     };
   }, [url, token]);

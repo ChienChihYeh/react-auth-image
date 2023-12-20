@@ -4,7 +4,7 @@ import { AuthImage, AuthBackgroundImage } from "..";
 
 describe("AuthImage", () => {
   it("AuthImage component renders <img/>", () => {
-    const component = renderer.create(<AuthImage url="" token="" />);
+    const component = renderer.create(<AuthImage src="" token="" />);
 
     const tree = component.toJSON() as ReactTestRendererJSON;
 
