@@ -62,7 +62,7 @@ export function AuthImage({
   return <img {...restProps} src={imageURL ? imageURL : undefined} />;
 }
 
-export function AuthBackgroundImage({
+export function AuthBackgroundDiv({
   url,
   token,
   children,
