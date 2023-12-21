@@ -37,12 +37,16 @@
   },
   "description": "React components for rendering images from secured URLs with bearer authentication",
   "main": "./dist/react-auth-image.umd.js",
+  "types": "./dist/react-auth-image.umd.d.ts",
   "exports": {
     ".": {
       "import": "./dist/react-auth-image.es.js",
       "require": "./dist/react-auth-image.umd.js"
     }
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "react",
     "components",
