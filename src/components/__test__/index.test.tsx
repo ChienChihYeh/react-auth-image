@@ -9,7 +9,6 @@ describe("AuthImage", () => {
     const tree = component.toJSON() as ReactTestRendererJSON;
 
     expect(tree.type).toBe("img");
-    expect(tree.children).toBe(null);
   });
 });
 

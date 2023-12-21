@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
 
+/**
+ * Fetches an image from the specified URL using the provided token and abort signal.
+ *
+ * @param {string} url - The URL of the image to fetch.
+ * @param {string} token - The token for authentication.
+ * @param {AbortSignal} signal - The abort signal to cancel the request.
+ * @return {Promise<Blob|Error>} A Promise that resolves to a Blob representing the fetched image, or an Error if the request fails.
+ */
 async function fetchImage(
   url: string,
   token: string,
@@ -31,6 +39,15 @@ async function fetchImage(
   }
 }
 
+/**
+ * Renders an image with authentication.
+ *
+ * @param {Object} props - The input props for the component.
+ * @param {string} props.src - The URL of the image to be loaded.
+ * @param {string} props.token - The authentication token for fetching the image.
+ * @param {...React.HTMLAttributes<HTMLImageElement>} [props.restProps] - Additional HTML attributes for the image element.
+ * @return {React.ReactNode} The rendered image element.
+ */
 export function AuthImage({
   src = "test",
   token = "test",
@@ -38,7 +55,8 @@ export function AuthImage({
 }: {
   src: string;
   token: string;
-} & React.HTMLAttributes<HTMLImageElement>) {
+  restProps?: React.HTMLAttributes<HTMLImageElement>;
+}) {
   const [imageURL, setImageURL] = useState<string | null>(null);
 
   useEffect(() => {
@@ -46,19 +64,20 @@ export function AuthImage({
     const controller = new AbortController();
     const signal = controller.signal;
 
+    const fetchImageAndSetURL = async () => {
+      try {
+        const blob = await fetchImage(src, token, signal);
+        if (blob instanceof Blob) {
+          newImageURL = URL.createObjectURL(blob);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setImageURL(newImageURL);
+      }
+    };
     if (src && token) {
-      fetchImage(src, token, signal)
-        .then((blob) => {
-          if (blob instanceof Blob) {
-            newImageURL = URL.createObjectURL(blob);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        })
-        .finally(() => {
-          setImageURL(newImageURL);
-        });
+      fetchImageAndSetURL();
     }
 
     return () => {
@@ -72,6 +91,18 @@ export function AuthImage({
   return <img {...restProps} src={imageURL ? imageURL : src} />;
 }
 
+/**
+ * Renders a div with a background image loaded from the given URL with authentication.
+ *
+ * @param {Object} props - The input props for the component.
+ * @param {string} props.url - The URL of the image to be loaded as background image.
+ * @param {string} props.token - The authentication token for fetching the image.
+ * @param {React.ReactNode} [props.children] - The child elements to be rendered inside the div.
+ * @param {function} [props.onLoad] - The callback function to be called when the image is successfully loaded.
+ * @param {function} [props.onError] - The callback function to be called if there is an error loading the image.
+ * @param {Object} [props.restProps] - The additional HTML attributes for the div element.
+ * @return {React.ReactNode} The div component with rendered background image.
+ */
 export function AuthBackgroundDiv({
   url,
   token,
@@ -92,19 +123,20 @@ export function AuthBackgroundDiv({
     let newImageURL: string | null = null;
     const controller = new AbortController();
     const signal = controller.signal;
+    const fetchImageAndSetURL = async () => {
+      try {
+        const blob = await fetchImage(url, token, signal);
+        if (blob instanceof Blob) {
+          newImageURL = URL.createObjectURL(blob);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setImageURL(newImageURL);
+      }
+    };
     if (url && token) {
-      fetchImage(url, token, signal)
-        .then((blob) => {
-          if (blob instanceof Blob) {
-            newImageURL = URL.createObjectURL(blob);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        })
-        .finally(() => {
-          setImageURL(newImageURL);
-        });
+      fetchImageAndSetURL();
     }
 
     return () => {
