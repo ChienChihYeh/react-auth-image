@@ -15,8 +15,8 @@ function App() {
         style={{ backgroundSize: "cover", width: "80px", height: "80px" }}
         className="auth-background"
         ref={divRef}
-        onError={() => {
-          console.log("background image fetch error");
+        errorCallback={() => {
+          console.log("fetch error callback");
         }}
       >
         <AuthImage
@@ -26,19 +26,6 @@ function App() {
           className="auth-image"
         />
       </AuthBackgroundDiv>
-      <AuthBackgroundDiv
-        url="xxx"
-        token="test"
-        style={{
-          backgroundSize: "cover",
-          width: "30px",
-          height: "30px",
-          margin: "auto",
-        }}
-        onError={() => {
-          console.log("background image fetch error");
-        }}
-      />
     </div>
   );
 }

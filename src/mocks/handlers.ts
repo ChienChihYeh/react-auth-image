@@ -25,4 +25,7 @@ export const handlers: HttpHandler[] = [
       lastName: "Doe",
     });
   }),
+  http.get("http://api.example.com/error", () => {
+    return HttpResponse.error();
+  }),
 ];
