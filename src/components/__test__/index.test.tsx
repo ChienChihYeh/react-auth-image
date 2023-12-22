@@ -64,6 +64,8 @@ describe("AuthImage", () => {
     });
     expect(callback).toBeCalled();
   });
+
+  //TODO: interaction test
 });
 
 describe("AuthBackgroundDiv", () => {
@@ -121,4 +123,6 @@ describe("AuthBackgroundDiv", () => {
     });
     expect(callback).toBeCalled();
   });
+
+  //TODO: interaction test
 });
