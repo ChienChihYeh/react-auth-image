@@ -15,6 +15,9 @@ function App() {
         style={{ backgroundSize: "cover", width: "80px", height: "80px" }}
         className="auth-background"
         ref={divRef}
+        onError={() => {
+          console.log("background image fetch error");
+        }}
       >
         <AuthImage
           src="vite.svg"
@@ -23,7 +26,19 @@ function App() {
           className="auth-image"
         />
       </AuthBackgroundDiv>
-      <div className="test" />
+      <AuthBackgroundDiv
+        url="xxx"
+        token="test"
+        style={{
+          backgroundSize: "cover",
+          width: "30px",
+          height: "30px",
+          margin: "auto",
+        }}
+        onError={() => {
+          console.log("background image fetch error");
+        }}
+      />
     </div>
   );
 }
