@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, forwardRef } from "react";
 
 /**
  * Fetches an image from the specified URL using the provided token and abort signal.
@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
  * @param {AbortSignal} signal - The abort signal to cancel the request.
  * @return {Promise<Blob|Error>} A Promise that resolves to a Blob representing the fetched image, or an Error if the request fails.
  */
+
 async function fetchImage(
   url: string,
   token: string,
@@ -26,6 +27,9 @@ async function fetchImage(
       /^image\/(jpeg|png|gif|bmp|webp|svg\+xml|tiff|ico)$/i;
     if (contentType && contentTypeRegex.test(contentType)) {
       const blob = await response.blob();
+      if (!blob) {
+        throw new Error("The response data is not a Blob.");
+      }
       return blob;
     } else {
       throw new Error("The Content-Type is not an image type.");
@@ -48,15 +52,17 @@ async function fetchImage(
  * @param {...React.HTMLAttributes<HTMLImageElement>} [props.restProps] - Additional HTML attributes for the image element.
  * @return {React.ReactNode} The rendered image element.
  */
-export function AuthImage({
-  src = "test",
-  token = "test",
-  ...restProps
-}: {
-  src: string;
-  token: string;
-  restProps?: React.HTMLAttributes<HTMLImageElement>;
-}) {
+export const AuthImage = forwardRef(function AuthImage(
+  {
+    src = "test",
+    token = "test",
+    ...restProps
+  }: {
+    src: string;
+    token: string;
+  } & React.HTMLAttributes<HTMLDivElement>,
+  ref: React.ForwardedRef<HTMLImageElement>
+) {
   const [imageURL, setImageURL] = useState<string | null>(null);
 
   useEffect(() => {
@@ -67,9 +73,7 @@ export function AuthImage({
     const fetchImageAndSetURL = async () => {
       try {
         const blob = await fetchImage(src, token, signal);
-        if (blob instanceof Blob) {
-          newImageURL = URL.createObjectURL(blob);
-        }
+        newImageURL = URL.createObjectURL(blob as Blob);
       } catch (error) {
         console.error(error);
       } finally {
@@ -88,8 +92,8 @@ export function AuthImage({
     };
   }, [src, token]);
 
-  return <img {...restProps} src={imageURL ? imageURL : src} />;
-}
+  return <img {...restProps} src={imageURL ? imageURL : src} ref={ref} />;
+});
 
 /**
  * Renders a div with a background image loaded from the given URL with authentication.
@@ -103,20 +107,23 @@ export function AuthImage({
  * @param {Object} [props.restProps] - The additional HTML attributes for the div element.
  * @return {React.ReactNode} The div component with rendered background image.
  */
-export function AuthBackgroundDiv({
-  url,
-  token,
-  children,
-  onLoad,
-  onError,
-  ...restProps
-}: {
-  url: string;
-  token: string;
-  children?: React.ReactNode;
-  onLoad?: () => void;
-  onError?: () => void;
-} & React.HTMLAttributes<HTMLDivElement>) {
+export const AuthBackgroundDiv = forwardRef(function AuthBackgroundDiv(
+  {
+    url,
+    token,
+    children,
+    onLoad,
+    onError,
+    ...restProps
+  }: {
+    url: string;
+    token: string;
+    children?: React.ReactNode;
+    onLoad?: () => void;
+    onError?: () => void;
+  } & React.HTMLAttributes<HTMLDivElement>,
+  ref: React.ForwardedRef<HTMLDivElement>
+) {
   const [imageURL, setImageURL] = useState<string | null>(null);
 
   useEffect(() => {
@@ -126,9 +133,7 @@ export function AuthBackgroundDiv({
     const fetchImageAndSetURL = async () => {
       try {
         const blob = await fetchImage(url, token, signal);
-        if (blob instanceof Blob) {
-          newImageURL = URL.createObjectURL(blob);
-        }
+        newImageURL = URL.createObjectURL(blob as Blob);
       } catch (error) {
         console.error(error);
       } finally {
@@ -166,8 +171,8 @@ export function AuthBackgroundDiv({
   }
 
   return (
-    <div {...restProps} style={mergedStyle}>
+    <div {...restProps} style={mergedStyle} ref={ref}>
       {children}
     </div>
   );
-}
+});

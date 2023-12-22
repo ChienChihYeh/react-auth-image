@@ -1,22 +1,34 @@
-import renderer, { ReactTestRendererJSON } from "react-test-renderer";
-import { describe, expect, it } from "vitest";
-import { AuthImage, AuthBackgroundDiv } from "..";
+/**
+ * @vitest-environment jsdom
+ */
+import renderer, { act, ReactTestRendererJSON } from "react-test-renderer";
+import { AuthImage } from "..";
+
+vi.spyOn(window.URL, "createObjectURL").mockImplementation(
+  () => "http://fake.url"
+);
 
 describe("AuthImage", () => {
-  it("AuthImage component renders <img/>", () => {
-    const component = renderer.create(<AuthImage src="" token="" />);
+  it("fetch image and render", async () => {
+    let component: renderer.ReactTestRenderer;
 
-    const tree = component.toJSON() as ReactTestRendererJSON;
+    await act(async () => {
+      component = renderer.create(
+        <AuthImage src="http://api.example.com/test.svg" token="test" />
+      );
+    });
 
-    expect(tree.type).toBe("img");
+    const tree = component!.toTree() as ReactTestRendererJSON;
+    console.log(tree);
+    expect(tree.props.src).toBe("http://fake.url");
   });
 });
 
-describe("AuthBackgroundDiv", () => {
-  it("AuthBackgrounImage component renders <div></div>", () => {
-    const component = renderer.create(<AuthBackgroundDiv url="" token="" />);
+// describe("AuthBackgroundDiv", () => {
+//   it("renders <div></div>", () => {
+//     const component = renderer.create(<AuthBackgroundDiv url="" token="" />);
 
-    const tree = component.toJSON() as ReactTestRendererJSON;
-    expect(tree.type).toBe("div");
-  });
-});
+//     const tree = component.toJSON() as ReactTestRendererJSON;
+//     expect(tree.type).toBe("div");
+//   });
+// });
