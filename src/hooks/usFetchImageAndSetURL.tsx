@@ -42,7 +42,7 @@ const useFetchImageAndSetURL = (
         controller.abort();
       }
       if (newImageURL) {
-        URL.revokeObjectURL(newImageURL);
+        // URL.revokeObjectURL(newImageURL);
       }
     };
   }, [url, token, errorCallback]);
