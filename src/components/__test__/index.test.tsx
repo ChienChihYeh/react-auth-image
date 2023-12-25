@@ -86,7 +86,7 @@ describe("AuthImage", () => {
     expect(callback).toBeCalled();
   });
 
-  it("should call onClick handler on click if provided", async () => {
+  it("should have passed down HTML img element attributes", async () => {
     const clickHandler = vi.fn();
 
     await act(async () => {
@@ -97,10 +97,13 @@ describe("AuthImage", () => {
           onClick={() => {
             clickHandler();
           }}
+          title="test"
         />
       );
     });
-    fireEvent.click(document.querySelector("img")!);
+    const element = document.querySelector("img")!;
+    fireEvent.click(element);
+    expect(element.getAttribute("title")).toBe("test");
     expect(clickHandler).toBeCalled();
   });
 });
@@ -161,7 +164,7 @@ describe("AuthBackgroundDiv", () => {
     expect(callback).toBeCalled();
   });
 
-  it("should call onClick handler on click if provided", async () => {
+  it("should have passed down HTML div element attributes", async () => {
     const clickHandler = vi.fn();
 
     await act(async () => {
@@ -172,11 +175,14 @@ describe("AuthBackgroundDiv", () => {
           onClick={() => {
             clickHandler();
           }}
+          title="test"
           data-testid="auth-background-div"
         />
       );
     });
-    fireEvent.click(screen.getByTestId("auth-background-div"));
+    const element = screen.getByTestId("auth-background-div");
+    fireEvent.click(element);
     expect(clickHandler).toBeCalled();
+    expect(element.getAttribute("title")).toBe("test");
   });
 });
