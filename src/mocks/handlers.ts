@@ -1,13 +1,13 @@
 import { http, HttpHandler, HttpResponse } from "msw";
 
+const mockSvgData =
+  '<svg width="100" height="100"><circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /></svg>';
+
 export const handlers: HttpHandler[] = [
   http.get("http://api.example.com/test.svg", async ({ request }) => {
     if (request.headers.get("Authorization") !== "Bearer test") {
       return HttpResponse.error();
     }
-
-    const mockSvgData =
-      '<svg width="100" height="100"><circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /></svg>';
 
     const blob = new Blob([mockSvgData], { type: "image/svg+xml" });
 

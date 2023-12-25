@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import useFetchImageAndSetURL from "../hooks/usFetchImageAndSetURL";
+import useFetchImageAndSetURL from "../hooks/useFetchImageAndSetURL";
 
 type AuthImageProps = {
   src: string;
