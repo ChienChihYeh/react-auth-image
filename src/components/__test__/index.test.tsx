@@ -36,7 +36,7 @@ describe("AuthImage", () => {
       renderer.create(
         <AuthImage
           src="http://api.example.com/test.svg"
-          token="error-token"
+          token="bad-token"
           errorCallback={callback}
         />
       );
@@ -128,7 +128,7 @@ describe("AuthBackgroundDiv", () => {
       renderer.create(
         <AuthBackgroundDiv
           url="http://api.example.com/test.svg"
-          token="error-token"
+          token="bad-token"
           errorCallback={callback}
         />
       );
