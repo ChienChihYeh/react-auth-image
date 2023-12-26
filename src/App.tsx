@@ -10,13 +10,13 @@ function App() {
   return (
     <div>
       <AuthBackgroundDiv
-        url="vite.svg"
+        url="vite.sv"
         token="test"
         style={{ backgroundSize: "cover", width: "80px", height: "80px" }}
         className="auth-background"
         ref={divRef}
-        errorCallback={() => {
-          console.log("fetch error callback");
+        errorCallback={(e) => {
+          console.error(`Error rendering image: ${e.message}`);
         }}
       >
         <AuthImage
@@ -24,6 +24,9 @@ function App() {
           token="test"
           ref={imageRef}
           className="auth-image"
+          errorCallback={(e) => {
+            console.error(e);
+          }}
         />
       </AuthBackgroundDiv>
     </div>

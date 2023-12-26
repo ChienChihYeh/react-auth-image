@@ -1,30 +1,123 @@
-# React + TypeScript + Vite
+# react-auth-image
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React components for rendering images from protected URLs using an authorization bearer token.
 
-Currently, two official plugins are available:
+## Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```bash
+npm install react-auth-image
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Usage
+
+#### Render image using `img` element
+
+1. Import the AuthImage component:
+
+```javascript
+import { AuthImage } from "react-auth-image";
+```
+
+2. Provide the following props to the `AuthImage` component:
+
+```javascript
+<AuthImage
+  src={url}
+  token={token}
+  errorCallback={handleError}
+  {...HTMLImageElementAttributes}
+/>
+```
+
+#### `AuthImage` Props
+
+| Prop             | Type       | Description                                                                                                                             |
+| ---------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `src`            | `string`   | (Required) The source URL for the image.                                                                                                |
+| `token`          | `string`   | (Required) The authentication token for accessing the image. This token will be added to the Authorization header as `Bearer ${token}`. |
+| `errorCallback`  | `function` | An optional callback function to handle errors when accessing the image.                                                                |
+| Other Attributes | -          | Any additional HTML image element attributes can be passed as props.                                                                    |
+
+#### Render image using `div` element background
+
+1. Import the `AuthBackgroundDiv` component:
+
+```javascript
+import { AuthBackgroundDiv } from "react-auth-image";
+```
+
+2. Provide the following props to the `AuthBackgroundDiv` component:
+
+```javascript
+<AuthBackgroundDiv
+  url={url}
+  token={token}
+  errorCallback={handleError}
+  {...HTMLImageElementAttributes}
+>
+  {/* Children can be added here */}
+  <p>This is a child</p>
+</AuthBackgroundDiv>
+```
+
+#### `AuthBackgroundDiv` Props
+
+| Prop             | Type       | Description                                                                                                                             |
+| ---------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`            | `string`   | (Required) The source URL for the image.                                                                                                |
+| `token`          | `string`   | (Required) The authentication token for accessing the image. This token will be added to the Authorization header as `Bearer ${token}`. |
+| `errorCallback`  | `function` | An optional callback function to handle errors when accessing the image.                                                                |
+| Other Attributes | -          | Any additional HTML div element attributes can be passed as props.                                                                      |
+
+## Example
+
+#### Render image using `AuthImage`:
+
+```javascript
+import { AuthImage } from "react-auth-image";
+
+const MyComponent = () => {
+  const url = "https://example.com/image.jpg";
+  const token = "your-auth-token";
+
+  const handleError = (error) => {
+    console.error(`Error rendering image: ${error.message}`);
+  };
+
+  return (
+    <AuthImage
+      src={url}
+      token={token}
+      errorCallback={handleError}
+      alt="example-image"
+      className="my-image"
+    />
+  );
+};
+```
+
+#### Render image using `AuthBackgroundDiv`:
+
+```javascript
+import { AuthBackgroundDiv } from "react-auth-image";
+
+const MyComponent = () => {
+  const url = "https://example.com/image.jpg";
+  const token = "your-auth-token";
+
+  const handleError = (error) => {
+    console.error(`Error rendering image: ${error.message}`);
+  };
+
+  return (
+    <AuthBackgroundDiv
+      url={url}
+      token={token}
+      errorCallback={handleError}
+      className="my-div"
+    >
+      <p>This is a child</p>
+    </AuthBackgroundDiv>
+  );
+};
+```

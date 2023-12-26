@@ -4,7 +4,7 @@ import useFetchImageAndSetURL from "../hooks/useFetchImageAndSetURL";
 type AuthImageProps = {
   src: string;
   token: string;
-  errorCallback?: () => void;
+  errorCallback?: (error: Error) => void;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 /**
@@ -29,7 +29,7 @@ export const AuthImage = forwardRef(function AuthImage(
 type AuthBackgroundDivProps = {
   url: string;
   token: string;
-  errorCallback?: () => void;
+  errorCallback?: (error: Error) => void;
   children?: React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>;
 

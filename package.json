@@ -51,7 +51,10 @@
   ],
   "keywords": [
     "react",
-    "components",
+    "react-component",
+    "component",
+    "image",
+    "token",
     "bearer-authentication"
   ],
   "author": "Chien-Chih Yeh",

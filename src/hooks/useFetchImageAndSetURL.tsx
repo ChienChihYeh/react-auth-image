@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 const useFetchImageAndSetURL = (
   url: string,
   token: string,
-  errorCallback?: () => void
+  errorCallback?: (error: Error) => void
 ) => {
   const [imageURL, setImageURL] = useState<string | null>(null);
 
@@ -26,7 +26,7 @@ const useFetchImageAndSetURL = (
       } catch (error) {
         if (error instanceof Error && error.name !== "AbortError") {
           console.error(error);
-          errorCallback && errorCallback();
+          errorCallback && errorCallback(error);
         }
       } finally {
         setImageURL(newImageURL);
@@ -87,7 +87,7 @@ async function fetchImage(
     }
   } catch (error) {
     if (error instanceof Error && error.name !== "AbortError") {
-      throw new Error(`Failed to fetch image. ${error.message}`);
+      throw error;
     } else {
       throw error;
     }
