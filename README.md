@@ -1,3 +1,5 @@
+# Warning: Work In Progress, DO NOT INSTALL
+
 # react-auth-image
 
 React components for rendering images from protected URLs using an authorization bearer token.
