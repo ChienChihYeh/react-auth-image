@@ -10,7 +10,7 @@ npm install react-auth-image
 
 ## Usage
 
-##### Render image using `img` element
+### Render image using `img` element
 
 1. Import the AuthImage component:
 
@@ -29,7 +29,7 @@ import { AuthImage } from "react-auth-image";
 />
 ```
 
-##### `AuthImage` Props
+### `AuthImage` Props
 
 | Prop             | Type       | Description                                                                                                                             |
 | ---------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------- |
@@ -38,7 +38,7 @@ import { AuthImage } from "react-auth-image";
 | `errorCallback`  | `function` | An optional callback function to handle errors when accessing the image.                                                                |
 | Other Attributes | -          | Any additional HTML image element attributes can be passed as props.                                                                    |
 
-##### Render image using `div` element background
+### Render image using `div` element background
 
 1. Import the `AuthBackgroundDiv` component:
 
@@ -60,7 +60,7 @@ import { AuthBackgroundDiv } from "react-auth-image";
 </AuthBackgroundDiv>
 ```
 
-##### `AuthBackgroundDiv` Props
+### `AuthBackgroundDiv` Props
 
 | Prop             | Type       | Description                                                                                                                             |
 | ---------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------- |
@@ -71,7 +71,7 @@ import { AuthBackgroundDiv } from "react-auth-image";
 
 ## Example
 
-##### Render image using `AuthImage`:
+### Render image using `AuthImage`:
 
 ```javascript
 import { AuthImage } from "react-auth-image";
@@ -96,7 +96,7 @@ const MyComponent = () => {
 };
 ```
 
-##### Render image using `AuthBackgroundDiv`:
+### Render image using `AuthBackgroundDiv`:
 
 ```javascript
 import { AuthBackgroundDiv } from "react-auth-image";
