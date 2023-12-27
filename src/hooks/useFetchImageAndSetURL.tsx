@@ -32,6 +32,10 @@ const useFetchImageAndSetURL = (
       setImageURL(newImageURL);
     };
 
+    if (!url) {
+      setImageURL(null);
+    }
+
     if (url && token) {
       fetchImageAndSetURL();
     }
