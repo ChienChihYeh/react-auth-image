@@ -28,9 +28,8 @@ const useFetchImageAndSetURL = (
           console.error(error);
           errorCallback && errorCallback(error);
         }
-      } finally {
-        setImageURL(newImageURL);
       }
+      setImageURL(newImageURL);
     };
 
     if (url && token) {
@@ -65,31 +64,23 @@ async function fetchImage(
   token: string,
   signal: AbortSignal
 ): Promise<Blob | Error> {
-  try {
-    const response = await fetch(url, {
-      headers: { Authorization: "Bearer " + token },
-      signal: signal,
-    });
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+  const response = await fetch(url, {
+    headers: { Authorization: "Bearer " + token },
+    signal: signal,
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+  const contentType = response.headers.get("Content-Type");
+  const contentTypeRegex =
+    /^image\/(jpeg|png|gif|bmp|webp|svg\+xml|tiff|ico)$/i;
+  if (contentType && contentTypeRegex.test(contentType)) {
+    const blob = await response.blob();
+    if (!blob) {
+      throw new Error("Blob not found.");
     }
-    const contentType = response.headers.get("Content-Type");
-    const contentTypeRegex =
-      /^image\/(jpeg|png|gif|bmp|webp|svg\+xml|tiff|ico)$/i;
-    if (contentType && contentTypeRegex.test(contentType)) {
-      const blob = await response.blob();
-      if (!blob) {
-        throw new Error("Cannot find blob in response.");
-      }
-      return blob;
-    } else {
-      throw new Error("The Content-Type is not an image type.");
-    }
-  } catch (error) {
-    if (error instanceof Error && error.name !== "AbortError") {
-      throw error;
-    } else {
-      throw error;
-    }
+    return blob;
+  } else {
+    throw new Error("The Content-Type is not an image type.");
   }
 }

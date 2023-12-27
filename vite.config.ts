@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react-swc";
 export default defineConfig({
   build: {
     lib: {
-      entry: "src/components/index.jsx",
+      entry: "src/components/index.tsx",
       name: "react-auth-image",
       fileName: (format) => `react-auth-image.${format}.js`,
     },

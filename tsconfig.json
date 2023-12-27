@@ -23,6 +23,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "vitest.setup.ts"],
+  "include": ["src", "vitest.setup.ts", "vitest.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -17,7 +17,7 @@ type AuthImageProps = {
  * @param {...React.HTMLAttributes<HTMLImageElement>} [props.restProps] - Additional HTML attributes for the image element.
  * @return {React.ReactNode} The rendered image element.
  */
-export const AuthImage = forwardRef(function AuthImage(
+export const AuthImage = forwardRef(function (
   { src, token, errorCallback, ...restProps }: AuthImageProps,
   ref: React.ForwardedRef<HTMLImageElement>
 ) {
@@ -44,7 +44,7 @@ type AuthBackgroundDivProps = {
  * @param {Object} [props.restProps] - The additional HTML attributes for the div element.
  * @return {React.ReactNode} The div component with rendered background image.
  */
-export const AuthBackgroundDiv = forwardRef(function AuthBackgroundDiv(
+export const AuthBackgroundDiv = forwardRef(function (
   { url, token, errorCallback, children, ...restProps }: AuthBackgroundDivProps,
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
