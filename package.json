@@ -3,6 +3,10 @@
   "private": false,
   "version": "1.0.0-0",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ChienChihYeh/react-auth-image.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -57,7 +61,8 @@
     "component",
     "image",
     "token",
-    "bearer-authentication"
+    "bearer-token",
+    "authentication"
   ],
   "author": "Chien-Chih Yeh",
   "license": "MIT"

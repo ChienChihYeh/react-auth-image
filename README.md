@@ -121,3 +121,12 @@ const MyComponent = () => {
   );
 };
 ```
+
+## Contributors
+
+<!-- CONTRIBUTORS_LIST_START -->
+
+- [@ChienChihYeh](https://github.com/ChienChihYeh)
+- [@shinder](https://github.com/shinder)
+
+<!-- CONTRIBUTORS_LIST_END -->
