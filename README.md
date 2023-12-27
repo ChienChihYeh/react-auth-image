@@ -1,6 +1,6 @@
 # react-auth-image
 
-React components for rendering images from protected URLs using an authorization bearer token.
+React components for rendering images from protected URLs using authorization bearer token.
 
 ## Installation
 
