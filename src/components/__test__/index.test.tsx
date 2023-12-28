@@ -4,8 +4,10 @@
 import renderer, { act, ReactTestRendererJSON } from "react-test-renderer";
 import { AuthImage, AuthBackgroundDiv } from "..";
 import { fireEvent, screen } from "@testing-library/dom";
-import { render } from "@testing-library/react";
+import { render, RenderResult } from "@testing-library/react";
 import React from "react";
+
+const revoke = vi.fn();
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -125,6 +127,20 @@ describe("AuthImage", () => {
     const element = screen.getByTestId("auth-image");
     expect(ref.current).toBe(element);
   });
+
+  it("should revoke object URL upon unmount", async () => {
+    vi.spyOn(window.URL, "revokeObjectURL").mockImplementation(revoke);
+    let unmount: (() => void) | undefined;
+    await act(async () => {
+      const result = render(
+        <AuthImage src="http://api.example.com/test.svg" token="test" />
+      ) as RenderResult;
+      unmount = result.unmount;
+    });
+    unmount && unmount();
+
+    expect(revoke).toBeCalled();
+  });
 });
 
 describe("AuthBackgroundDiv", () => {
@@ -221,5 +237,19 @@ describe("AuthBackgroundDiv", () => {
     });
     const element = screen.getByTestId("auth-background-div");
     expect(ref.current).toBe(element);
+  });
+
+  it("should revoke object URL upon unmount", async () => {
+    vi.spyOn(window.URL, "revokeObjectURL").mockImplementation(revoke);
+    let unmount: (() => void) | undefined;
+    await act(async () => {
+      const result = render(
+        <AuthBackgroundDiv url="http://api.example.com/test.svg" token="test" />
+      ) as RenderResult;
+      unmount = result.unmount;
+    });
+    unmount && unmount();
+
+    expect(revoke).toBeCalled();
   });
 });

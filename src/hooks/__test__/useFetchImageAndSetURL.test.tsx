@@ -38,6 +38,15 @@ describe("useFetchImageAndSetURL", () => {
     expect(result!.current).toBe("http://mock.url");
   });
 
+  it("should return null if image url is an empty string", async () => {
+    let result;
+    await act(async () => {
+      ({ result } = renderHook(() => useFetchImageAndSetURL("", "test")));
+    });
+    console.log({ result });
+    expect(result!.current).toBe(null);
+  });
+
   it("should call errorCallback upon encountering an error during image fetching", async () => {
     let result;
     await act(async () => {
