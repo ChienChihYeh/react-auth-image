@@ -32,7 +32,7 @@ const useFetchImageAndSetURL = (
       setImageURL(newImageURL);
     };
 
-    if (url) {
+    if (url && token) {
       fetchImageAndSetURL();
     } else {
       setImageURL(null);
@@ -75,7 +75,8 @@ async function fetchImage(
   }
   const contentType = response.headers.get("Content-Type");
   const contentTypeRegex =
-    /^image\/(jpeg|png|gif|bmp|webp|svg\+xml|tiff|ico)$/i;
+    /^image\/(jpeg|png|gif|bmp|webp|svg\+xml|tiff|ico)(;.*)?$/i;
+  // /^image\/(jpeg|png|gif|bmp|webp|svg\+xml|tiff|ico)$/i;
   if (contentType && contentTypeRegex.test(contentType)) {
     const blob = await response.blob();
     if (!blob) {
