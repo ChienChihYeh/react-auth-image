@@ -10,8 +10,8 @@ function App() {
   return (
     <div>
       <AuthBackgroundDiv
-        url="vite.sv"
-        token="test"
+        url="vite.svg"
+        token=""
         style={{ backgroundSize: "cover", width: "80px", height: "80px" }}
         className="auth-background"
         ref={divRef}
