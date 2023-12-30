@@ -1,11 +1,11 @@
-import "./App.css";
-import { AuthImage } from "./components";
-import { AuthBackgroundDiv } from "./components";
-import { useRef } from "react";
+import "./App.css"
+import { AuthImage } from "./components"
+import { AuthBackgroundDiv } from "./components"
+import { useRef } from "react"
 
 function App() {
-  const imageRef = useRef(null);
-  const divRef = useRef(null);
+  const imageRef = useRef(null)
+  const divRef = useRef(null)
 
   return (
     <div>
@@ -16,7 +16,7 @@ function App() {
         className="auth-background"
         ref={divRef}
         errorCallback={(e) => {
-          console.error(`Error rendering image: ${e.message}`);
+          console.error(`Error rendering image: ${e.message}`)
         }}
       >
         <AuthImage
@@ -25,12 +25,12 @@ function App() {
           ref={imageRef}
           className="auth-image"
           errorCallback={(e) => {
-            console.error(e);
+            console.error(e)
           }}
         />
       </AuthBackgroundDiv>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

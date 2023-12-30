@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 
 /**
  * Custom hook that fetches an image using provided url and token and return an object URL.
@@ -13,45 +13,45 @@ const useFetchImageAndSetURL = (
   token: string,
   errorCallback?: (error: Error) => void
 ) => {
-  const [imageURL, setImageURL] = useState<string | null>(null);
+  const [imageURL, setImageURL] = useState<string | null>(null)
 
   useEffect(() => {
-    let newImageURL: string | null = null;
-    const controller = new AbortController();
-    const signal = controller.signal;
+    let newImageURL: string | null = null
+    const controller = new AbortController()
+    const signal = controller.signal
     const fetchImageAndSetURL = async () => {
       try {
-        const blob = await fetchImage(url, token, signal);
-        newImageURL = URL.createObjectURL(blob as Blob);
+        const blob = await fetchImage(url, token, signal)
+        newImageURL = URL.createObjectURL(blob as Blob)
       } catch (error) {
         if (error instanceof Error && error.name !== "AbortError") {
-          console.error(error);
-          errorCallback && errorCallback(error);
+          console.error(error)
+          errorCallback && errorCallback(error)
         }
       }
-      setImageURL(newImageURL);
-    };
+      setImageURL(newImageURL ?? url)
+    }
 
     if (url && token) {
-      fetchImageAndSetURL();
+      fetchImageAndSetURL()
     } else {
-      setImageURL(null);
+      setImageURL(null)
     }
 
     return () => {
       if (controller) {
-        controller.abort();
+        controller.abort()
       }
       if (newImageURL) {
-        URL.revokeObjectURL(newImageURL);
+        URL.revokeObjectURL(newImageURL)
       }
-    };
-  }, [url, token, errorCallback]);
+    }
+  }, [url, token, errorCallback])
 
-  return imageURL;
-};
+  return imageURL
+}
 
-export default useFetchImageAndSetURL;
+export default useFetchImageAndSetURL
 
 /**
  * Fetches an image from the specified URL using the provided token and abort signal.
@@ -69,21 +69,21 @@ async function fetchImage(
   const response = await fetch(url, {
     headers: { Authorization: "Bearer " + token },
     signal: signal,
-  });
+  })
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    throw new Error(`HTTP error! Status: ${response.status}`)
   }
-  const contentType = response.headers.get("Content-Type");
+  const contentType = response.headers.get("Content-Type")
   const contentTypeRegex =
-    /^image\/(jpeg|png|gif|bmp|webp|svg\+xml|tiff|ico)(;.*)?$/i;
+    /^image\/(jpeg|png|gif|bmp|webp|svg\+xml|tiff|ico)(;.*)?$/i
   // /^image\/(jpeg|png|gif|bmp|webp|svg\+xml|tiff|ico)$/i;
   if (contentType && contentTypeRegex.test(contentType)) {
-    const blob = await response.blob();
+    const blob = await response.blob()
     if (!blob) {
-      throw new Error("Blob not found.");
+      throw new Error("Blob not found.")
     }
-    return blob;
+    return blob
   } else {
-    throw new Error("The Content-Type is not an image type.");
+    throw new Error("The Content-Type is not an image type.")
   }
 }

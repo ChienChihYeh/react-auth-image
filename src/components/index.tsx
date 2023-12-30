@@ -1,11 +1,11 @@
-import { forwardRef } from "react";
-import useFetchImageAndSetURL from "../hooks/useFetchImageAndSetURL";
+import { forwardRef } from "react"
+import useFetchImageAndSetURL from "../hooks/useFetchImageAndSetURL"
 
 type AuthImageProps = {
-  src: string;
-  token: string;
-  errorCallback?: (error: Error) => void;
-} & React.HTMLAttributes<HTMLDivElement>;
+  src: string
+  token: string
+  errorCallback?: (error: Error) => void
+} & React.HTMLAttributes<HTMLDivElement>
 
 /**
  * Renders an image with authentication.
@@ -21,17 +21,17 @@ export const AuthImage = forwardRef(function (
   { src, token, errorCallback, ...restProps }: AuthImageProps,
   ref: React.ForwardedRef<HTMLImageElement>
 ) {
-  const imageURL = useFetchImageAndSetURL(src, token, errorCallback);
+  const imageURL = useFetchImageAndSetURL(src, token, errorCallback)
 
-  return <img {...restProps} src={imageURL ? imageURL : src} ref={ref} />;
-});
+  return <img {...restProps} src={imageURL ?? ""} ref={ref} />
+})
 
 type AuthBackgroundDivProps = {
-  url: string;
-  token: string;
-  errorCallback?: (error: Error) => void;
-  children?: React.ReactNode;
-} & React.HTMLAttributes<HTMLDivElement>;
+  url: string
+  token: string
+  errorCallback?: (error: Error) => void
+  children?: React.ReactNode
+} & React.HTMLAttributes<HTMLDivElement>
 
 /**
  * Renders a div with a background image loaded from the given URL with authentication.
@@ -48,17 +48,17 @@ export const AuthBackgroundDiv = forwardRef(function (
   { url, token, errorCallback, children, ...restProps }: AuthBackgroundDivProps,
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
-  const imageURL = useFetchImageAndSetURL(url, token, errorCallback);
-  const { style } = { ...restProps };
+  const imageURL = useFetchImageAndSetURL(url, token, errorCallback)
+  const { style } = { ...restProps }
   const mergedStyle = {
     ...style,
-    backgroundImage: `url(${imageURL ? imageURL : url})`,
-  };
+    backgroundImage: `url(${imageURL})`,
+  }
   //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
 
   return (
     <div {...restProps} style={mergedStyle} ref={ref}>
       {children}
     </div>
-  );
-});
+  )
+})
