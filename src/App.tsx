@@ -12,7 +12,9 @@ function App() {
     <div>
       <AuthBackgroundDiv
         url={isDisplay ? "vite.svg" : ""}
-        token="test"
+        // url="vite.svg"
+        // token="test"
+        token={isDisplay ? "test" : ""}
         style={{
           backgroundSize: "cover",
           width: "80px",

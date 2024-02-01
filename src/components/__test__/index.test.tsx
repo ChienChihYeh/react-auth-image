@@ -252,4 +252,15 @@ describe("AuthBackgroundDiv", () => {
 
     expect(revoke).toBeCalled();
   });
+
+  it("should have background image property if url is empty string", async () => {
+    let component: renderer.ReactTestRenderer;
+
+    await act(async () => {
+      component = renderer.create(<AuthBackgroundDiv url="" token="test" />);
+    });
+    const tree = component!.toJSON() as ReactTestRendererJSON;
+    expect(tree.type).toBe("div");
+    expect(tree.props.style.backgroundImage).toBe("url()");
+  });
 });

@@ -17,13 +17,13 @@ type AuthImageProps = {
  * @param {...React.HTMLAttributes<HTMLImageElement>} [props.restProps] - Additional HTML attributes for the image element.
  * @return {React.ReactNode} The rendered image element.
  */
-export const AuthImage = forwardRef(function (
+export const AuthImage = forwardRef(function AuthImage(
   { src, token, errorCallback, ...restProps }: AuthImageProps,
   ref: React.ForwardedRef<HTMLImageElement>
 ) {
   const imageURL = useFetchImageAndSetURL(src, token, errorCallback);
 
-  return <img {...restProps} src={imageURL ? imageURL : src} ref={ref} />;
+  return <img {...restProps} src={imageURL ?? src} ref={ref} />;
 });
 
 type AuthBackgroundDivProps = {
@@ -44,7 +44,7 @@ type AuthBackgroundDivProps = {
  * @param {Object} [props.restProps] - The additional HTML attributes for the div element.
  * @return {React.ReactNode} The div component with rendered background image.
  */
-export const AuthBackgroundDiv = forwardRef(function (
+export const AuthBackgroundDiv = forwardRef(function AuthBackgroundDiv(
   { url, token, errorCallback, children, ...restProps }: AuthBackgroundDivProps,
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
@@ -54,6 +54,7 @@ export const AuthBackgroundDiv = forwardRef(function (
     ...style,
     backgroundImage: `url(${imageURL ? imageURL : url})`,
   };
+
   //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
 
   return (

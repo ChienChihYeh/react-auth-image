@@ -29,7 +29,7 @@ const useFetchImageAndSetURL = (
           errorCallback && errorCallback(error);
         }
       }
-      setImageURL(newImageURL);
+      setImageURL(newImageURL ?? null);
     };
 
     if (url && token) {
