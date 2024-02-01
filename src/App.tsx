@@ -1,18 +1,24 @@
 import "./App.css";
 import { AuthImage } from "./components";
 import { AuthBackgroundDiv } from "./components";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 function App() {
   const imageRef = useRef(null);
   const divRef = useRef(null);
+  const [isDisplay, setIsDisplay] = useState(true);
 
   return (
     <div>
       <AuthBackgroundDiv
-        url="vite.sv"
+        url={isDisplay ? "vite.svg" : ""}
         token="test"
-        style={{ backgroundSize: "cover", width: "80px", height: "80px" }}
+        style={{
+          backgroundSize: "cover",
+          width: "80px",
+          height: "80px",
+          margin: "auto",
+        }}
         className="auth-background"
         ref={divRef}
         errorCallback={(e) => {
@@ -29,6 +35,14 @@ function App() {
           }}
         />
       </AuthBackgroundDiv>
+      <button
+        style={{ marginTop: "10px", backgroundColor: "#ccc" }}
+        onClick={() => {
+          setIsDisplay((prev) => !prev);
+        }}
+      >
+        Toggle
+      </button>
     </div>
   );
 }

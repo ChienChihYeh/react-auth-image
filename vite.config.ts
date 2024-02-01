@@ -4,7 +4,7 @@ import dts from "vite-plugin-dts";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  publicDir: false,
+  publicDir: "public",
   build: {
     lib: {
       entry: "src/components/index.tsx",

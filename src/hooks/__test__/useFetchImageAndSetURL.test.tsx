@@ -94,4 +94,71 @@ describe("useFetchImageAndSetURL", () => {
     console.log({ result });
     expect(revoke).toHaveBeenCalled();
   });
+
+  it("should revoke object URL upon changing image url to empty sting", async () => {
+    let result;
+    let rerender: (arg0: {
+      url: string;
+      token: string;
+      errorCallback: Mock;
+    }) => void;
+
+    await act(async () => {
+      ({ result, rerender } = renderHook(
+        ({ url, token, errorCallback }) =>
+          useFetchImageAndSetURL(url, token, errorCallback),
+        {
+          initialProps: {
+            url: "http://api.example.com/test.svg",
+            token: "test",
+            errorCallback: errorCallback,
+          },
+        }
+      ));
+    });
+    console.log({ result });
+    await act(async () => {
+      rerender({
+        url: "",
+        token: "test",
+        errorCallback: errorCallback,
+      });
+    });
+    console.log({ result });
+    expect(revoke).toHaveBeenCalled();
+  });
+
+  it("should return null upon changing image url from an url string to empty sting", async () => {
+    let result;
+    let rerender: (arg0: {
+      url: string;
+      token: string;
+      errorCallback: Mock;
+    }) => void;
+
+    await act(async () => {
+      ({ result, rerender } = renderHook(
+        ({ url, token, errorCallback }) =>
+          useFetchImageAndSetURL(url, token, errorCallback),
+        {
+          initialProps: {
+            url: "http://api.example.com/test.svg",
+            token: "test",
+            errorCallback: errorCallback,
+          },
+        }
+      ));
+    });
+    expect(result!.current).toBe("http://mock.url");
+    console.log({ result });
+    await act(async () => {
+      rerender({
+        url: "",
+        token: "test",
+        errorCallback: errorCallback,
+      });
+    });
+    console.log({ result });
+    expect(result!.current).toBe(null);
+  });
 });
