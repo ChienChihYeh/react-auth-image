@@ -23,7 +23,7 @@ export const AuthImage = forwardRef(function AuthImage(
 ) {
   const imageURL = useFetchImageAndSetURL(src, token, errorCallback);
 
-  return <img {...restProps} src={imageURL ?? src} ref={ref} />;
+  return <img {...restProps} src={imageURL ?? undefined} ref={ref} />;
 });
 
 type AuthBackgroundDivProps = {
@@ -52,7 +52,7 @@ export const AuthBackgroundDiv = forwardRef(function AuthBackgroundDiv(
   const { style } = { ...restProps };
   const mergedStyle = {
     ...style,
-    backgroundImage: `url(${imageURL ? imageURL : url})`,
+    backgroundImage: `url(${imageURL ? imageURL : ""})`,
   };
 
   //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
